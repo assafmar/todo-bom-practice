@@ -26,7 +26,31 @@ const query = () => {
 }
 
 const update = todo => {
-  return axios.put(`http://localhost:3003/data/todo/${todo._id}`, todo)
+  return axios.put(`http://localhost:3003/data/todo/${todo._id}/${diff}`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+const move= (todo,diff) => {
+  return axios.put(`http://localhost:3003/data/move/todo/${todo._id}`, todo,diff)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+const deleteTodo = todo => {
+  // console.log('(service) delete todo=',todo)
+    console.log('todoId2=',todo._id)
+
+  return axios.delete(`http://localhost:3003/data/delete/todo/${todo._id}`)
+  console.log('todoId2=',todo._id)
     .then(function (response) {
       return response.data;
     })
@@ -40,5 +64,6 @@ export default {
   emptyTodo,
   addTodo,
   update,
-  query
+  query,
+  deleteTodo
 }

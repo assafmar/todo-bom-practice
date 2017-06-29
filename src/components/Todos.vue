@@ -4,8 +4,9 @@
     <todos-filter></todos-filter>
     <ul>
       <li v-for="(todo, idx) in todos" :key="todo._id">
-      <button>&uarr;</button>
-      <button>&darr;</button>
+      <button @click="todoMove(todo, 1,todo._id)">&uarr;</button>
+      <button @click="todoMove(todo, -1,todo._id)">&darr;</button>
+      <button @click="todoDelete(todo)">X</button>
         {{idx}}.
         <input type="checkbox" :checked="todo.completed" @change="toggleTodo(todo)"> {{todo.txt}}
         <h6>
@@ -29,7 +30,7 @@
 <script>
 
 
-import { TODO_CREATE, TODO_UPDATE, TODO_LOAD } from '../store/todos.store'
+import { TODO_CREATE, TODO_UPDATE, TODO_LOAD, TODO_DELETE, TODO_MOVE} from '../store/todos.store'
 
 import todoService from '../services/todo.service'
 import TodosFilter from './TodosFilter'
@@ -59,13 +60,21 @@ export default {
     addTodo() {
       this.$store.dispatch({ type: TODO_CREATE, todo: this.newTodo });
       this.newTodo = todoService.emptyTodo();
-    },
+    },//
+    todoDelete(todo) {
+      //console.log('todo del id',todo._id)
+      this.$store.dispatch({ type: TODO_DELETE, todo: todo });
+    },//
     updateImportance(todo, diff) {
       const todoUpdated = Object.assign({},
         todo,
         { importance: todo.importance + diff }
       )
       this.$store.dispatch({ type: TODO_UPDATE, todo: todoUpdated });
+    },
+    todoMove(todo, diff,id) {
+      console.log('todo =',todo)
+      this.$store.dispatch({ type: TODO_MOVE, todo: todo, diff:diff, id:id});
     }
 
   },

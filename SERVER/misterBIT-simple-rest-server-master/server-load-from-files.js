@@ -53,16 +53,35 @@ app.get('/data/:objType/:id', function (req, res) {
 	const obj = objs.find(obj => obj._id == req.params.id);
 	res.json(obj);
 });
+// move a single
+app.get('/data/move/:objType/:id/:diff', function (req, res) {//http://localhost:3003/data/move/todo
+	cl("GET for single " + req.params.objType);
+	const objs = getObjList(req.params.objType);
+	const obj = objs.find(obj => obj._id == req.params.id);
+	
+	const idx = findIndexForId(objs, req.params.id)
+	console.lof('obj:',obj)
+	console.lof('id:',id)
+	
+	//if((idx + req.params.diff) >0 && (idx + req.params.diff) <objs.length )
+	res.json(obj);
+});
 
 // DELETE
-app.delete('/data/:objType/:id', function (req, res) {
-	cl("DELETE for single " + req.params.objType);
+app.delete('/data/delete/:objType/:id', function (req, res) {
+	cl("DELETE for single1 " + req.params.objType);
+	cl("DELETE req.params._id*** "  + req.params.id);
 	const objs = getObjList(req.params.objType);
 	let idx = findIndexForId(objs, req.params.id);
+	
+	var isSuccess = false;
 	if (idx !== -1) {
+		cl('objs.len:',objs.length);
 		objs.splice(idx, 1);
+		isSuccess = true;
+		cl('objs.len:',objs.length);
 	}
-	res.json({});
+	res.json({isSuccess});
 });
 
 // POST - adds 
