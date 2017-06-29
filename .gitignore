@@ -4,3 +4,6 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+SERVER/misterBIT-simple-rest-server-master/node_modules/
+SERVER/misterBIT-simple-rest-server-master/npm-debug.log*
+
